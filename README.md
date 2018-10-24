@@ -1,2 +1,2 @@
-# go_spider
-go 语言爬虫
+# go_play
+go 语言相关项目
