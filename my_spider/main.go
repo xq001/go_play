@@ -157,7 +157,7 @@ func main() {
 	for i := start; i <= end; i++ {
 		// Add URLs to the queue
 		//q.AddURL(fmt.Sprintf("http://www.chinabidding.org.cn/BidInfoDetails_bid_%d.html", i))
-		q.AddURL(fmt.Sprintf("http://114.112.171.164:8082/BidInfoDetails.aspx?bid=%d&type=2016", i))
+		q.AddURL(fmt.Sprintf("http://114.112.171.164:8082/BidInfoDetails.aspx?bid=%d&type=2015", i))
 	}
 
 	// Consume URLs
