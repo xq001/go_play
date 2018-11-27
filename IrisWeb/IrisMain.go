@@ -45,7 +45,7 @@ func main() {
 func GetProxyHandle(ctx iris.Context) {
 
 	proxyList := VerifyProxy(GetProxyIpList())
-	fmt.Println("验证后ip:", proxyList)
+	//fmt.Println("验证后ip:", proxyList)
 	ctx.JSON(iris.Map{
 		"ip_list": proxyList,
 	})
@@ -87,7 +87,7 @@ func GetProxyIpList() []string {
 		proxyList = append(proxyList, protocol+"://"+ip+":"+port)
 	}
 
-	fmt.Println("待验证ip个数", len(proxyList))
+	//fmt.Println("待验证ip个数", len(proxyList))
 	return proxyList
 
 }
