@@ -33,6 +33,7 @@ var databaseName string
 var tableName string
 var logfilePath string
 var threadNum int
+var formatUrl string
 
 func init() {
 
@@ -47,6 +48,7 @@ func init() {
 	tableName = config.Section("mongodb").Key("CONNECTION").String()
 	logfilePath = config.Section("log").Key("logfile").String()
 	threadNum, _ = config.Section("spider").Key("thread_num").Int()
+	formatUrl = config.Section("spider").Key("format_url").String()
 	session, err := mgo.Dial(mongodbUrl) //传入数据库的地址，可以传入多个，具体请看接口文档
 	if err != nil {
 		panic(err)
@@ -157,7 +159,7 @@ func main() {
 	for i := start; i <= end; i++ {
 		// Add URLs to the queue
 		//q.AddURL(fmt.Sprintf("http://www.chinabidding.org.cn/BidInfoDetails_bid_%d.html", i))
-		q.AddURL(fmt.Sprintf("http://114.112.171.164:8082/BidInfoDetails.aspx?bid=%d&type=2015", i))
+		q.AddURL(fmt.Sprintf(formatUrl, i))
 	}
 
 	// Consume URLs
