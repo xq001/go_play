@@ -131,7 +131,9 @@ func main() {
 			htmlquery.InnerText(htmlquery.FindOne(doc, "//*[@id=\"fld\"]")), "")
 		item.BidArea = re.ReplaceAllString(
 			htmlquery.InnerText(htmlquery.FindOne(doc, "//*[@id=\"dtr\"]")), "")
-		item.BidText = htmlquery.OutputHTML(htmlquery.FindOne(doc, "//*[@id=\"dinfo\"]"), true)
+		BidText := htmlquery.InnerText(htmlquery.FindOne(doc, "//*[@id=\"dinfo\"]"))
+		item.BidText = strings.TrimSpace(strings.Replace(BidText, "\n", "", -1))
+		//item.BidText = htmlquery.OutputHTML(htmlquery.FindOne(doc, "//*[@id=\"dinfo\"]"), true)
 		item.BidUrl = fmt.Sprint(r.Request.URL)
 		if err := InsertToDB(item); err != nil {
 			logger.Error(fmt.Sprint(err))
