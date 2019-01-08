@@ -8,12 +8,20 @@ import (
 	"github.com/go-ini/ini"
 	"github.com/kataras/iris"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"net/url"
 	"os"
 	"strings"
 	"time"
 )
+
+var userAgentList = []string{
+	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
+	"Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1",
+	"Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36",
+	"Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1",
+	"Mozilla/5.0 (iPad; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) Version/11.0 Mobile/15A5341f Safari/604.1"}
 
 var PublishUrl string
 var VerifyUrl string
@@ -67,7 +75,7 @@ func GetProxyIpList() []string {
 	if err != nil {
 		fmt.Println(err)
 	}
-	reqest.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36")
+	reqest.Header.Set("User-Agent", randChoiceList(userAgentList))
 	response, err := client.Do(reqest)
 	if err != nil {
 		fmt.Println(err)
@@ -146,4 +154,11 @@ func VerifyOneProxy(verifyProxyUrl string, verifyUrl string, ch chan<- string) {
 	}
 	defer response.Body.Close()
 	ch <- fmt.Sprint(verifyProxyUrl)
+}
+
+func randChoiceList(list []string) string {
+	/*随机取出列表中的一个数*/
+	rand.Seed(time.Now().Unix())
+	length := len(list)
+	return list[rand.Intn(length)]
 }
